@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <cstdlib>
 #include <chrono>
 #include <utility>
@@ -71,7 +72,7 @@ int* rearrangeIterative(int* arr, int size, int k) {
 }
 
 void recursiveRearrange(int* arr, int start, int end, int k) {
-    if (start >= end) {
+    if (end - start <= count(arr, arr + end, k)) {
         return;
     }
     int left = start;
@@ -84,7 +85,13 @@ void recursiveRearrange(int* arr, int start, int end, int k) {
         right--;
     }
     if (left < right) {
-        swap(arr[left], arr[right]);;
+        if (arr[left] == arr[right]) {
+            swap(arr[left], arr[right-1]);
+            swap(arr[right], arr[left+1]);
+        }
+        else {
+            swap(arr[left], arr[right]);;
+        }
     }
     recursiveRearrange(arr, left, right, k);
 } 
